@@ -24,18 +24,22 @@ clear;clc;close all;
 cd('../');
 
 % collect a image list of dataset
-try
-    % load('result/dataList_msra.mat');
-    % resume = load('result/i_msra.mat');
-    load('result/dataList_celebrity.mat');
-    resume = load('result/i_celebrity.mat');
-    start = resume.i;
-    fprintf('--- Resume from %dth image (total %d) ...\n', start, length(dataList));
-catch
-    % dataList = collectData('/home/jason/Datasets/Trillion_Pairs/train_msra/msra', 'msra');
-    dataList = collectData('/home/jason/Datasets/Trillion_Pairs/train_celebrity/celebrity', 'celebrity');
-    start = 1;
-end
+% try
+%     % load('result/dataList_msra.mat');
+%     % resume = load('result/i_msra.mat');
+%     load('result/dataList_celebrity.mat');
+%     resume = load('result/i_celebrity.mat');
+%     start = resume.i;
+%     fprintf('--- Resume from %dth image (total %d) ...\n', start, length(dataList));
+% catch
+%     % dataList = collectData('/home/jason/Datasets/Trillion_Pairs/train_msra/msra', 'msra');
+%     dataList = collectData('/home/jason/Datasets/Trillion_Pairs/train_celebrity/celebrity', 'celebrity');
+%     start = 1;
+% end
+trainList = collectData('/home/jason/Datasets/CASIA_WebFace/CASIA-WebFace', 'CASIA-WebFace');
+testList  = collectData('/home/jason/Datasets/LFW/lfw', 'lfw');
+dataList = [trainList; testList];
+start = 1;
 
 %% mtcnn settings
 minSize   = 20;
@@ -74,12 +78,12 @@ for i = start:length(dataList)
     if i == start || mod(i, 1000) == 0
         fprintf('detecting the %dth image...\n', i);
     end
-    if i == 1 || mod(i, 50000) == 0
-        % save result/i_msra.mat i
-        % save('result/dataList_msra.mat', 'dataList', '-v7.3');
-        save result/i_celebrity.mat i
-        save('result/dataList_celebrity.mat', 'dataList', '-v7.3');
-    end
+%     if i == 1 || mod(i, 50000) == 0
+%         % save result/i_msra.mat i
+%         % save('result/dataList_msra.mat', 'dataList', '-v7.3');
+%         save result/i_celebrity.mat i
+%         save('result/dataList_celebrity.mat', 'dataList', '-v7.3');
+%     end
     % load image
     img = imread(dataList(i).file);
     if size(img, 3)==1
@@ -107,13 +111,14 @@ for i = start:length(dataList)
     end
 end
 
-if start <= length(dataList)
-    i = length(dataList) + 1;
-    % save result/i_msra.mat i
-    % save('result/dataList_msra.mat', 'dataList', '-v7.3');
-    save result/i_celebrity.mat i
-    save('result/dataList_celebrity.mat', 'dataList', '-v7.3');
-end
+% if start <= length(dataList)
+%     i = length(dataList) + 1;
+%     % save result/i_msra.mat i
+%     % save('result/dataList_msra.mat', 'dataList', '-v7.3');
+%     save result/i_celebrity.mat i
+%     save('result/dataList_celebrity.mat', 'dataList', '-v7.3');
+% end
+save('result/dataList_webface.mat', 'dataList', '-v7.3');
 
 end
 
